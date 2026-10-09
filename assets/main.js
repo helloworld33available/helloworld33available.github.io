@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* 移动端导航开合 */
+  /* 移动端导航开合（仅详情页有 .nav，首页无此元素会自动跳过） */
   var toggle = document.querySelector('.nav__toggle');
   var links = document.querySelector('.nav__links');
   if (toggle && links) {
@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
     faders.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  /* 当前区块高亮 */
-  var sections = [].slice.call(document.querySelectorAll('main .section[id]'));
+  /* 当前区块高亮（左侧身份栏 sidenav） */
+  var sections = [].slice.call(document.querySelectorAll('main section[id], main footer[id]'));
   var navMap = {};
-  document.querySelectorAll('.nav__links a[href^="#"]').forEach(function (a) {
+  document.querySelectorAll('.sidenav a[href^="#"]').forEach(function (a) {
     navMap[a.getAttribute('href').slice(1)] = a;
   });
-  if (sections.length && 'IntersectionObserver' in window) {
+  if (sections.length && Object.keys(navMap).length && 'IntersectionObserver' in window) {
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         var a = navMap[en.target.id];
@@ -48,18 +48,18 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* 作品分类筛选：改 index.html 里 data-filter / data-cat 即可 */
-  var grid = document.getElementById('projects-grid');
-  if (grid) {
+  var list = document.getElementById('projlist');
+  if (list) {
     var buttons = document.querySelectorAll('.filter-btn');
-    var cards = [].slice.call(grid.querySelectorAll('.project-card'));
+    var rows = [].slice.call(list.querySelectorAll('.projrow'));
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var f = btn.getAttribute('data-filter');
         buttons.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        cards.forEach(function (c) {
-          var show = (f === 'all') || (c.getAttribute('data-cat') === f);
-          c.style.display = show ? '' : 'none';
+        rows.forEach(function (r) {
+          var show = (f === 'all') || (r.getAttribute('data-cat') === f);
+          r.style.display = show ? '' : 'none';
         });
       });
     });
