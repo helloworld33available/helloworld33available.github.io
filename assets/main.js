@@ -47,23 +47,28 @@ document.addEventListener('DOMContentLoaded', function () {
     sections.forEach(function (s) { spy.observe(s); });
   }
 
-  /* 作品分类筛选：改 index.html 里 data-filter / data-cat 即可 */
-  var list = document.getElementById('projlist');
-  if (list) {
-    var buttons = document.querySelectorAll('.filter-btn');
-    var rows = [].slice.call(list.querySelectorAll('.projrow'));
+  /* 通用分类筛选：.filter-bar[data-filter-target] 指向列表容器，data-row 指定行选择器
+     作品列表行用 data-cat，游戏经历行用 data-pcat，按钮 data-filter 与之一致即可 */
+  document.querySelectorAll('.filter-bar[data-filter-target]').forEach(function (bar) {
+    var target = document.getElementById(bar.getAttribute('data-filter-target'));
+    if (!target) return;
+    var rowSel = bar.getAttribute('data-row') || '.projrow';
+    var rows = [].slice.call(target.querySelectorAll(rowSel));
+    var buttons = bar.querySelectorAll('.filter-btn');
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var f = btn.getAttribute('data-filter');
         buttons.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         rows.forEach(function (r) {
-          var show = (f === 'all') || (r.getAttribute('data-cat') === f);
+          var show = (f === 'all') ||
+            (r.getAttribute('data-cat') === f) ||
+            (r.getAttribute('data-pcat') === f);
           r.style.display = show ? '' : 'none';
         });
       });
     });
-  }
+  });
 
   /* 详情页自动目录 */
   var doc = document.querySelector('.doc');

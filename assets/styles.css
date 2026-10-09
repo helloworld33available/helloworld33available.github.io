@@ -356,17 +356,27 @@ a:hover { color: var(--accent-hover); }
 
 .gamelist { border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .gamerow {
-  display: grid; grid-template-columns: 150px 170px 70px 1fr;
+  display: grid; grid-template-columns: 54px 150px 180px 88px 1fr;
   align-items: center; gap: 16px;
   padding: 16px 22px; border-bottom: 1px solid var(--border);
   transition: background var(--dur) var(--ease);
 }
 .gamerow:last-child { border-bottom: none; }
 .gamerow:hover { background: var(--surface); }
-.gamerow__name { font-size: 1rem; font-weight: 600; color: var(--text); }
+.gamerow__plat {
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
+  padding: 3px 0; border-radius: var(--r-sm); text-align: center; white-space: nowrap;
+}
+.plat--pc { background: rgba(88, 166, 255, 0.12); color: var(--accent); }
+.plat--mobile { background: rgba(86, 212, 221, 0.12); color: var(--accent-2); }
+.gamerow__name { font-size: 1rem; font-weight: 600; color: var(--text); line-height: 1.4; }
 .gamerow__type { font-size: 0.82rem; color: var(--text-sub); font-family: var(--font-mono); }
-.gamerow__h { font-family: var(--font-mono); font-size: 1rem; color: var(--accent); font-weight: 600; }
+.gamerow__h { font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
 .gamerow__note { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; }
+.gamelist__more {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);
+  letter-spacing: 0.5px; margin-top: 14px;
+}
 
 /* ---- Foot / contact ---- */
 .foot { padding: 64px 56px; background: var(--surface); border-top: 1px solid var(--border); }
@@ -504,6 +514,9 @@ a:hover { color: var(--accent-hover); }
   .about2 { grid-template-columns: 1fr; }
   .skills2 { grid-template-columns: 1fr; }
   .play2 { grid-template-columns: repeat(2, 1fr); }
+  .gamerow { grid-template-columns: 48px 1fr 78px; gap: 10px 14px; }
+  .gamerow__type { display: none; }
+  .gamerow__note { grid-column: 1 / -1; }
 }
 
 @media (max-width: 600px) {
@@ -514,7 +527,8 @@ a:hover { color: var(--accent-hover); }
   .projrow__tag, .projrow__meta { display: none; }
   .projrow:hover { padding-left: 20px; }
   .play2 { grid-template-columns: 1fr 1fr; }
-  .gamerow { grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .gamerow { grid-template-columns: 1fr 72px; gap: 4px 12px; }
+  .gamerow__plat { display: none; }
   .gamerow__note { grid-column: 1 / -1; }
   .foot__inner { flex-direction: column; }
   .doc-nav ol { columns: 1; }
